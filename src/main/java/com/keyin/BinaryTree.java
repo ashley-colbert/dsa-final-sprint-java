@@ -182,7 +182,6 @@ public class BinaryTree {
         System.out.println("BT has been successfully deleted!");
     }
 
-    // Insert Method for a binary search tree
     public void insertRoot(int value) {
         root = insertRec(root, value);
     }
@@ -211,22 +210,7 @@ public class BinaryTree {
         sb.append("}");
         return sb.toString();
     }
-
-    // Main method for testing
-    public static void main(String[] args) {
-        BinaryTree tree = new BinaryTree();
-        int[] numbers = {10, 20, 5, 15, 30};
-
-        // Use insertRoot for BST
-        for (int number : numbers) {
-            tree.insertRoot(number);
-        }
-
-        System.out.println("In-order traversal:");
-        tree.inOrder(tree.root);
-        System.out.println();
-
-        System.out.println(tree.toJson(tree.root));
-
-    }
 }
+
+
+
