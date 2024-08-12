@@ -9,7 +9,6 @@ public class BinaryTree {
         this.root = null;
     }
 
-    // Pre-order traversal
     void preOrder(BinaryNode node) {
         if (node == null) {
             return;
@@ -19,7 +18,6 @@ public class BinaryTree {
         preOrder(node.right);
     }
 
-    // In-order traversal
     void inOrder(BinaryNode node) {
         if (node == null) {
             return;
@@ -29,7 +27,6 @@ public class BinaryTree {
         inOrder(node.right);
     }
 
-    // Post-order traversal
     void postOrder(BinaryNode node) {
         if (node == null) {
             return;
@@ -39,7 +36,6 @@ public class BinaryTree {
         System.out.print(node.value + " ");
     }
 
-    // Level-order traversal
     void levelOrder() {
         if (root == null) {
             return;
@@ -59,7 +55,6 @@ public class BinaryTree {
         System.out.println();
     }
 
-    // Search method using level-order traversal
     public void search(int value) {
         if (root == null) {
             System.out.println("The value " + value + " is not found in the Tree");
@@ -83,7 +78,6 @@ public class BinaryTree {
         System.out.println("The value " + value + " is not found in the Tree");
     }
 
-    // Insert Method for a general binary tree
     void insert(int value) {
         BinaryNode newNode = new BinaryNode(value);
         if (root == null) {
@@ -110,7 +104,6 @@ public class BinaryTree {
         }
     }
 
-    // Get Deepest node
     public BinaryNode getDeepestNode() {
         if (root == null) {
             return null;
@@ -130,7 +123,6 @@ public class BinaryTree {
         return presentNode;
     }
 
-    // Delete Deepest node
     public void deleteDeepestNode() {
         if (root == null) {
             return;
@@ -153,7 +145,6 @@ public class BinaryTree {
         }
     }
 
-    // Delete Given node
     void deleteNode(int value) {
         if (root == null) {
             System.out.println("The node does not exist in this BT");
@@ -176,7 +167,6 @@ public class BinaryTree {
         System.out.println("The node does not exist in this BT");
     }
 
-    // Delete Binary Tree
     void deleteBT() {
         root = null;
         System.out.println("BT has been successfully deleted!");
@@ -197,16 +187,26 @@ public class BinaryTree {
         return root;
     }
 
-    public String toJson(BinaryNode node) {
+    public String toJson() {
+        if (root == null) {
+            return "{\"Root\": null}";
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append("{\"Root\": ");
+        sb.append(nodeToJson(root));
+        sb.append("}");
+        return sb.toString();
+    }
+
+    private String nodeToJson(BinaryNode node) {
         if (node == null) {
             return "null";
         }
         StringBuilder sb = new StringBuilder();
-        sb.append("{\"Root\": {");
+        sb.append("{");
         sb.append("\"value\": ").append(node.value).append(", ");
-        sb.append("\"left\": ").append(toJson(node.left)).append(", ");
-        sb.append("\"right\": ").append(toJson(node.right));
-        sb.append("}");
+        sb.append("\"left\": ").append(nodeToJson(node.left)).append(", ");
+        sb.append("\"right\": ").append(nodeToJson(node.right));
         sb.append("}");
         return sb.toString();
     }

@@ -10,7 +10,6 @@ public class BinaryTreeEntity {
     @Column(columnDefinition = "TEXT")
     private String jsonRepresentation;
 
-    // Getters and setters
     public Long getId() {
         return id;
     }

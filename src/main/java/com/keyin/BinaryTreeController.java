@@ -3,8 +3,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 
+
+@CrossOrigin
 @RestController
-@RequestMapping("/api/tree")
+@RequestMapping("/binary")
 public class BinaryTreeController {
 
     private final BinaryTreeService binaryTreeService;
@@ -14,12 +16,12 @@ public class BinaryTreeController {
         this.binaryTreeService = binaryTreeService;
     }
 
-    @PostMapping("/build")
+    @PostMapping("/tree")
     public String buildTree(@RequestBody List<Integer> numbers) {
         return binaryTreeService.buildTreeJson(numbers);
     }
 
-    @GetMapping("/all")
+    @GetMapping("/alltrees")
     public List<BinaryTreeEntity> getAllTrees() {
         return binaryTreeService.getAllTrees();
     }

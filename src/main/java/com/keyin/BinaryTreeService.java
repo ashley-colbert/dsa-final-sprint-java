@@ -19,7 +19,8 @@ public class BinaryTreeService {
         for (int number : numbers) {
             tree.insertRoot(number);
         }
-        String json = tree.toJson(tree.root);
+        // Call toJson() without any arguments
+        String json = tree.toJson();
         saveTree(json);
         return json;
     }
