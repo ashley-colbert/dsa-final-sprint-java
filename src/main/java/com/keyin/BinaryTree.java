@@ -5,42 +5,41 @@ import java.util.Queue;
 public class BinaryTree {
     BinaryNode root;
 
-    BinaryNode node = new BinaryNode();
     public BinaryTree() {
         this.root = null;
     }
 
-    // Preorder traversal
+    // Pre-order traversal
     void preOrder(BinaryNode node) {
         if (node == null) {
             return;
         }
-        System.out.println(node.getValue() + " ");
-        preOrder(node.getLeft());
-        preOrder(node.getRight());
+        System.out.print(node.value + " ");
+        preOrder(node.left);
+        preOrder(node.right);
     }
 
-    // InOrder Traversal
+    // In-order traversal
     void inOrder(BinaryNode node) {
         if (node == null) {
             return;
         }
-        inOrder(node.getLeft());
-        System.out.println(node.getValue() + " ");
-        inOrder(node.getRight());
+        inOrder(node.left);
+        System.out.print(node.value + " ");
+        inOrder(node.right);
     }
 
-    // Post Order Traversal
+    // Post-order traversal
     void postOrder(BinaryNode node) {
         if (node == null) {
             return;
         }
-        postOrder(node.getLeft());
-        postOrder(node.getRight());
-        System.out.println(node.getValue() + " ");
+        postOrder(node.left);
+        postOrder(node.right);
+        System.out.print(node.value + " ");
     }
 
-    // Level Order traversal
+    // Level-order traversal
     void levelOrder() {
         if (root == null) {
             return;
@@ -49,44 +48,167 @@ public class BinaryTree {
         queue.add(root);
         while (!queue.isEmpty()) {
             BinaryNode presentNode = queue.remove();
-            System.out.println(presentNode.getValue());
-            if (presentNode.getLeft() != null) {
-                queue.add(presentNode.getLeft());
+            System.out.print(presentNode.value + " ");
+            if (presentNode.left != null) {
+                queue.add(presentNode.left);
             }
-            if (presentNode.getRight() != null) {
-                queue.add(presentNode.getRight());
+            if (presentNode.right != null) {
+                queue.add(presentNode.right);
             }
         }
+        System.out.println();
     }
 
-    // Search method using level order traversal
-    public void search(String value) {
+    // Search method using level-order traversal
+    public void search(int value) {
         if (root == null) {
-            System.out.println("The tree is empty.");
+            System.out.println("The value " + value + " is not found in the Tree");
             return;
         }
         Queue<BinaryNode> queue = new LinkedList<>();
         queue.add(root);
         while (!queue.isEmpty()) {
             BinaryNode presentNode = queue.remove();
-            if (presentNode.getValue().equals(value)) {
-                System.out.println("The value " + value + " is found in the Tree.");
+            if (presentNode.value == value) {
+                System.out.println("The value " + value + " is found in the Tree");
                 return;
             }
-            if (presentNode.getLeft() != null) {
-                queue.add(presentNode.getLeft());
+            if (presentNode.left != null) {
+                queue.add(presentNode.left);
             }
-            if (presentNode.getRight() != null) {
-                queue.add(presentNode.getRight());
+            if (presentNode.right != null) {
+                queue.add(presentNode.right);
             }
         }
-        System.out.println("The value " + value + " is not found in the Tree.");
+        System.out.println("The value " + value + " is not found in the Tree");
+    }
+
+    // Insert Method for a general binary tree
+    void insert(int value) {
+        BinaryNode newNode = new BinaryNode(value);
+        if (root == null) {
+            root = newNode;
+            System.out.println("Inserted new node at Root");
+            return;
+        }
+        Queue<BinaryNode> queue = new LinkedList<>();
+        queue.add(root);
+        while (!queue.isEmpty()) {
+            BinaryNode presentNode = queue.remove();
+            if (presentNode.left == null) {
+                presentNode.left = newNode;
+                System.out.println("Successfully Inserted");
+                break;
+            } else if (presentNode.right == null) {
+                presentNode.right = newNode;
+                System.out.println("Successfully Inserted");
+                break;
+            } else {
+                queue.add(presentNode.left);
+                queue.add(presentNode.right);
+            }
+        }
+    }
+
+    // Get Deepest node
+    public BinaryNode getDeepestNode() {
+        if (root == null) {
+            return null;
+        }
+        Queue<BinaryNode> queue = new LinkedList<>();
+        queue.add(root);
+        BinaryNode presentNode = null;
+        while (!queue.isEmpty()) {
+            presentNode = queue.remove();
+            if (presentNode.left != null) {
+                queue.add(presentNode.left);
+            }
+            if (presentNode.right != null) {
+                queue.add(presentNode.right);
+            }
+        }
+        return presentNode;
+    }
+
+    // Delete Deepest node
+    public void deleteDeepestNode() {
+        if (root == null) {
+            return;
+        }
+        Queue<BinaryNode> queue = new LinkedList<>();
+        queue.add(root);
+        BinaryNode previousNode = null, presentNode = null;
+        while (!queue.isEmpty()) {
+            previousNode = presentNode;
+            presentNode = queue.remove();
+            if (presentNode.left == null) {
+                if (previousNode != null) previousNode.right = null;
+                return;
+            } else if (presentNode.right == null) {
+                presentNode.left = null;
+                return;
+            }
+            queue.add(presentNode.left);
+            queue.add(presentNode.right);
+        }
+    }
+
+    // Delete Given node
+    void deleteNode(int value) {
+        if (root == null) {
+            System.out.println("The node does not exist in this BT");
+            return;
+        }
+        Queue<BinaryNode> queue = new LinkedList<>();
+        queue.add(root);
+        while (!queue.isEmpty()) {
+            BinaryNode presentNode = queue.remove();
+            if (presentNode.value == value) {
+                presentNode.value = getDeepestNode().value;
+                deleteDeepestNode();
+                System.out.println("The node is deleted!");
+                return;
+            } else {
+                if (presentNode.left != null) queue.add(presentNode.left);
+                if (presentNode.right != null) queue.add(presentNode.right);
+            }
+        }
+        System.out.println("The node does not exist in this BT");
     }
 
     // Delete Binary Tree
     void deleteBT() {
         root = null;
         System.out.println("BT has been successfully deleted!");
+    }
+
+    public void insertRoot(int value) {
+        root = insertRec(root, value);
+    }
+
+    public BinaryNode insertRec(BinaryNode root, int value) {
+        if (root == null) {
+            root = new BinaryNode(value);
+        } else if (value < root.value) {
+            root.left = insertRec(root.left, value);
+        } else if (value > root.value) {
+            root.right = insertRec(root.right, value);
+        }
+        return root;
+    }
+
+    public String toJson(BinaryNode node) {
+        if (node == null) {
+            return "null";
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append("{\"Root\": {");
+        sb.append("\"value\": ").append(node.value).append(", ");
+        sb.append("\"left\": ").append(toJson(node.left)).append(", ");
+        sb.append("\"right\": ").append(toJson(node.right));
+        sb.append("}");
+        sb.append("}");
+        return sb.toString();
     }
 }
 
