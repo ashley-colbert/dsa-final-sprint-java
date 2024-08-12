@@ -1,8 +1,14 @@
 package com.keyin;
 
 public class BinaryNode {
-    public String value;
+    public int value;
     public BinaryNode left;
     public BinaryNode right;
-    public int height;
+
+    public BinaryNode(int value) {
+        this.value = value;
+        this.left = null;
+        this.right = null;
+    }
+
 }
